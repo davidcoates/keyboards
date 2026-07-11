@@ -37,6 +37,8 @@ enum unicode_names {
   SUB_7,
   SUB_8,
   SUB_9,
+  EN_DASH,
+  EM_DASH,
 };
 
 const uint32_t unicode_map[] PROGMEM = {
@@ -61,6 +63,8 @@ const uint32_t unicode_map[] PROGMEM = {
   [SUB_7]     = 0x2087, // ₇
   [SUB_8]     = 0x2088, // ₈
   [SUB_9]     = 0x2089, // ₉
+  [EN_DASH]   = 0x2013, // –
+  [EM_DASH]   = 0x2014, // —
 };
 
 enum planck_layers {
@@ -93,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_SYMBOL] = LAYOUT_ortho_4x12(
-    KC_SCR_SHOT,    KC_GRAVE,       KC_TRANSPARENT, KC_PIPE,        KC_ASTR,        KC_TRANSPARENT, KC_TRANSPARENT, KC_BSLS,        KC_CIRC,        KC_TRANSPARENT, KC_DQUO,        KC_TRANSPARENT,
+    KC_SCR_SHOT,    KC_GRAVE,       UC(EN_DASH),    KC_PIPE,        KC_ASTR,        KC_TRANSPARENT, KC_TRANSPARENT, KC_BSLS,        KC_CIRC,        UC(EM_DASH),    KC_DQUO,        KC_TRANSPARENT,
     KC_UNDS,        KC_AT,          KC_AMPR,        KC_LCBR,        KC_RCBR,        KC_LBRC,        KC_RBRC,        KC_LPRN,        KC_RPRN,        KC_EQUAL,       KC_PLUS,        KC_COLN,
     KC_TRANSPARENT, KC_TILD,        KC_EXLM,        KC_PERC,        KC_DLR,         KC_TRANSPARENT, KC_TRANSPARENT, KC_HASH,        KC_LABK,        KC_RABK,        KC_QUES,        KC_TRANSPARENT,
     KC_TRANSPARENT, TO(_BASE),      KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, MO(_CONTROL),   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
