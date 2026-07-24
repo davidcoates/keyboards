@@ -57,7 +57,7 @@ function build {
 function flash_RP2040 {
   echo "Waiting for device..."
   local dir="/media/$USER/RPI-RP2"
-  while [ ! -d "$dir" ]; do
+  while ! mountpoint -q "$dir"; do
     sleep 0.2
   done
   echo "Flashing..."
