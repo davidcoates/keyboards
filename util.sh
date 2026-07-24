@@ -5,83 +5,70 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-if [ ! -d "firmware/src" ]; then
-  mkdir -p "firmware/src"
-fi
-
-if [ ! -d "firmware/bin" ]; then
-  mkdir -p "firmware/bin"
-fi
+mkdir -p bin
 
 keymap_source=${1%/}
 keymap_name="davidcoates"
+userspace_dir="$(pwd)"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/keymaps"
 
 if [ "$keymap_source" == "nyquist" ]; then
 
-  firmware_path="firmware/src/qmk"
+  firmware_path="$cache_dir/qmk"
+  firmware_remote="https://github.com/qmk/qmk_firmware.git"
+  firmware_commit="f0e090f67a90f9b653faeddbf5a1c4f75e24e91a"
   keyboard_name="keebio/nyquist/rev5"
-  keymap_path="$firmware_path/keyboards/keebio/nyquist/keymaps/$keymap_name"
   firmware_target="keebio_nyquist_rev5_$keymap_name.uf2"
-  flash_function="flash_RP2040"
-  if [ ! -d "$firmware_path" ]; then
-    git clone --recurse-submodules https://github.com/qmk/qmk_firmware.git $firmware_path
-  fi
 
 elif [ "$keymap_source" == "planck" ]; then
 
-  firmware_path="firmware/src/zsa"
-  keyboard_name="planck/ez/glow"
-  keymap_path="$firmware_path/keyboards/planck/ez/glow/keymaps/$keymap_name"
-  firmware_target="planck_ez_glow_$keymap_name.bin"
-  flash_function="flash_planck"
-  if [ ! -d "$firmware_path" ]; then
-    git clone --recurse-submodules --single-branch --branch firmware23 git@github.com:zsa/qmk_firmware.git $firmware_path
-    (cd $firmware_path && git apply ../../../zsa.patch)
-  fi
+  firmware_path="$cache_dir/zsa"
+  firmware_remote="git@github.com:zsa/qmk_firmware.git"
+  firmware_commit="5456d00fd858d746df47b1f30e456075c6a4ba24" # firmware24 branch
+  keyboard_name="zsa/planck_ez/glow"
+  firmware_target="zsa_planck_ez_glow_$keymap_name.bin"
 
 else
   echo "Unrecognized keymap: $keymap_source"
   exit 1
 fi
 
+function ensure_firmware {
+  echo "Checking firmware..."
+  if [ ! -d "$firmware_path" ]; then
+    mkdir -p "$cache_dir"
+    git clone --recurse-submodules "$firmware_remote" "$firmware_path"
+  fi
+  (cd "$firmware_path" && git fetch origin "$firmware_commit" && git checkout "$firmware_commit" && git submodule sync --recursive && git submodule update --init --recursive)
+}
+
+function docker_make {
+  docker run --rm \
+    "$@" \
+    -w /qmk_firmware \
+    -v "$firmware_path":/qmk_firmware:z \
+    -v "$userspace_dir":/qmk_userspace:z \
+    -e QMK_USERSPACE=/qmk_userspace \
+    -e SKIP_GIT=yes \
+    -e PYTHONUNBUFFERED=1 \
+    ghcr.io/qmk/qmk_cli \
+    bash -c "pip install -q -r requirements.txt && make '$keyboard_name:$keymap_name$target_suffix' && chown -R $(id -u):$(id -g) /qmk_firmware /qmk_userspace/$firmware_target"
+}
+
 function build {
-  mkdir "$keymap_path"
-  trap 'rm -r -- "$keymap_path"' EXIT
-  cp "$keymap_source"/* "$keymap_path"/
+  ensure_firmware
   echo "Building..."
-  (cd $firmware_path && ./util/docker_build.sh "$keyboard_name:$keymap_name")
-  mv "$firmware_path/$firmware_target" firmware/bin/
+  target_suffix=""
+  docker_make
+  mv "$userspace_dir/$firmware_target" bin/
   echo "Built target: $firmware_target"
 }
 
-function flash_RP2040 {
-  echo "Waiting for device..."
-  local dir="/media/$USER/RPI-RP2"
-  while ! mountpoint -q "$dir"; do
-    sleep 0.2
-  done
-  echo "Flashing..."
-  sudo cp "firmware/bin/$firmware_target" "$dir"/
-  sync
-  echo "Flashed!"
-}
-
-function flash_planck {
-  echo "Waiting for device..."
-  local device='0483:DF11'
-  while ! lsusb | grep -iq "$device"; do
-    sleep 0.2
-  done
-  echo "Flashing..."
-  sudo dfu-util -a 0 -d "$device" -s 0x8000000:leave -D "firmware/bin/$firmware_target"
-  echo "Flashed!"
-}
-
 function flash {
-  if [ ! -f "firmware/bin/$firmware_target" ]; then
-    echo "Target $firmware_target not found, building..."
-    build
-  fi
-  sudo -v
-  $flash_function
+  ensure_firmware
+  echo "Building and flashing..."
+  target_suffix=":flash"
+  docker_make --privileged -v /dev:/dev -v "/media/$USER":"/media/$USER":rslave -e USER="$USER"
+  mv "$userspace_dir/$firmware_target" bin/
+  echo "Flashed!"
 }
