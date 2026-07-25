@@ -142,11 +142,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void highlight_key(uint8_t row, uint8_t col)
 {
   uint8_t index = g_led_config.matrix_co[row][col];
-  static const uint8_t rgb_matrix_split[2] = RGB_MATRIX_SPLIT;
-  if (is_keyboard_left() == (index < rgb_matrix_split[0])) // TODO: figure out why this is needed...
-  {
-    rgb_matrix_set_color(index, 0xff, 0xff, 0xff);
-  }
+  rgb_matrix_set_color(index, 0xff, 0xff, 0xff);
 }
 
 bool rgb_matrix_indicators_user(void) {
