@@ -1,6 +1,8 @@
-# keymaps
+# keyboards
 
-Keymaps for my keyboards.
+Everything related to my keyboards.
+
+## Keymaps
 
 QMK "external userspace" layout: keymap sources live under
 `keyboards/<keyboard>/keymaps/davidcoates`. Requires Docker.

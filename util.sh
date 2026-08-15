@@ -10,7 +10,7 @@ mkdir -p bin
 keymap_source=${1%/}
 keymap_name="davidcoates"
 userspace_dir="$(pwd)"
-cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/keymaps"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/keyboards"
 
 if [ "$keymap_source" == "nyquist" ]; then
 
