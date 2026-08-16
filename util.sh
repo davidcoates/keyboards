@@ -12,19 +12,17 @@ keymap_name="davidcoates"
 userspace_dir="$(pwd)"
 cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/keyboards"
 
+firmware_path="$cache_dir/qmk"
+firmware_remote="https://github.com/qmk/qmk_firmware.git"
+firmware_commit="f0e090f67a90f9b653faeddbf5a1c4f75e24e91a"
+
 if [ "$keymap_source" == "nyquist" ]; then
 
-  firmware_path="$cache_dir/qmk"
-  firmware_remote="https://github.com/qmk/qmk_firmware.git"
-  firmware_commit="f0e090f67a90f9b653faeddbf5a1c4f75e24e91a"
   keyboard_name="keebio/nyquist/rev5"
   firmware_target="keebio_nyquist_rev5_$keymap_name.uf2"
 
 elif [ "$keymap_source" == "planck" ]; then
 
-  firmware_path="$cache_dir/zsa"
-  firmware_remote="git@github.com:zsa/qmk_firmware.git"
-  firmware_commit="5456d00fd858d746df47b1f30e456075c6a4ba24" # firmware24 branch
   keyboard_name="zsa/planck_ez/glow"
   firmware_target="zsa_planck_ez_glow_$keymap_name.bin"
 
