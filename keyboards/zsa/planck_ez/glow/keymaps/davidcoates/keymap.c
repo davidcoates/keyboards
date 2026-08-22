@@ -67,14 +67,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Every ASCII punctuation character except , and . which are on the base layer.
   // Placed by mnemonic against the base-layer letter underneath:
   //
-  //   ?  '  /  *  `      +  \  _  -  "
-  //   @  &  {  }  [      ]  (  )  =  ;
-  //   ~  !  %  $  |      :  #  <  >  ^
+  //   ?  '  /  *  `      +  \  :  -  "
+  //   _  &  {  }  [      ]  (  )  =  ;
+  //   ~  !  %  $  |      ^  #  <  >  @
   //
   [_SYMBOL] = LAYOUT_ortho_4x12(
-    KC_QUES,        KC_QUOTE,       KC_SLASH,       KC_ASTR,        KC_GRAVE,       KC_NO,          KC_NO,          KC_PLUS,        KC_BSLS,        KC_UNDS,        KC_MINUS,       KC_DQUO,
-    KC_AT,          KC_AMPR,        KC_LCBR,        KC_RCBR,        KC_LBRC,        KC_NO,          KC_NO,          KC_RBRC,        KC_LPRN,        KC_RPRN,        KC_EQUAL,       KC_SCLN,
-    KC_TILD,        KC_EXLM,        KC_PERC,        KC_DLR,         KC_PIPE,        KC_NO,          KC_NO,          KC_COLN,        KC_HASH,        KC_LABK,        KC_RABK,        KC_CIRC,
+    KC_QUES,        KC_QUOTE,       KC_SLASH,       KC_ASTR,        KC_GRAVE,       KC_NO,          KC_NO,          KC_PLUS,        KC_BSLS,        KC_COLN,        KC_MINUS,       KC_DQUO,
+    KC_UNDS,        KC_AMPR,        KC_LCBR,        KC_RCBR,        KC_LBRC,        KC_NO,          KC_NO,          KC_RBRC,        KC_LPRN,        KC_RPRN,        KC_EQUAL,       KC_SCLN,
+    KC_TILD,        KC_EXLM,        KC_PERC,        KC_DLR,         KC_PIPE,        KC_NO,          KC_NO,          KC_CIRC,        KC_HASH,        KC_LABK,        KC_RABK,        KC_AT,
     KC_TRNS,        KC_NO,          KC_TRNS,        KC_TRNS,        KC_NO,          KC_NO,          KC_NO,          KC_DELETE,      KC_NO,          UM(EN_DASH),    KC_NO,          KC_TRNS
   ),
 
