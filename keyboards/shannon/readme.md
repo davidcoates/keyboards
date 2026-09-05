@@ -6,18 +6,23 @@ hand (its own row and column in the matrix). Hardware source lives in
 
 ## Building
 
-Each hand gets its own firmware, as the `left/` and `right/` revisions:
+One firmware image serves both hands:
 
-    ./build shannon-left     # bin/shannon_left_davidcoates.uf2
-    ./flash shannon-right
+    ./build shannon     # bin/shannon_davidcoates.uf2
+    ./flash shannon
 
-The revisions differ only in `SERIAL_USART_TX_PIN`. TRRS ring 2 is wired to
-pad P21 on both boards, but flipping the MCU to mirror the right hand maps
-that pad to GP29 on the left and GP2 on the right (`P2 <-> P21` in the swap
-table below), and QMK has no per-hand serial pin -- `split.matrix_pins.right`
-covers the matrix only, and the serial pin is a compile-time constant that
-also reaches assembly sources via `config.h`, so it can't be selected at
-runtime from `is_keyboard_left()`.
+TRRS ring 2 is wired to pad P21 on both boards, but flipping the MCU to mirror
+the right hand maps that pad to GP29 on the left and GP2 on the right
+(`P2 <-> P21` in the swap table below). QMK has no per-hand serial pin
+setting (`split.matrix_pins.right` covers the matrix only), but with the
+RP2040 PIO driver `SERIAL_USART_TX_PIN` is only ever used as a runtime value,
+never in `#if`s or assembly, and `split_pre_init()` settles handedness before
+the transport is initialised. So `config.h` defines it as
+`(is_keyboard_left() ? GP29 : GP2)`. The older AVR bitbang and STM32 USART
+drivers genuinely need a constant here, which is why QMK treats it as one.
+
+Handedness is `MASTER_LEFT`: the half with USB plugged in is the left. Always
+plug in the left hand.
 
 `rules.mk` sets `SERIAL_DRIVER = vendor` (RP2040's PIO driver). The default
 bitbang driver needs ChibiOS PAL callbacks this board doesn't enable, and
