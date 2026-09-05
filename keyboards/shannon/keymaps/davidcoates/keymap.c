@@ -126,9 +126,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Qwerty layer (for games / applications, not typing)
 
   [_QWERTY] = LAYOUT(
-    TO(_BASE),      KC_Q,           KC_W,           KC_E,           KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-    KC_NO,          KC_A,           KC_S,           KC_D,           KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-    KC_LEFT_SHIFT,  KC_Z,           KC_X,           KC_C,           KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    TO(_BASE),      KC_Q,           KC_W,           KC_E,           KC_R,           KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    KC_NO,          KC_A,           KC_S,           KC_D,           KC_F,           KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    KC_LEFT_SHIFT,  KC_Z,           KC_X,           KC_C,           KC_V,           KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
                     KC_LEFT_CTRL,   KC_NO,          KC_SPACE,                       KC_NO,          KC_NO,          KC_NO,
     KC_ESCAPE,                                                                                                                      KC_NO
   ),
