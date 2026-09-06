@@ -1,7 +1,5 @@
 #pragma once
 
-#define HOLD_ON_OTHER_KEY_PRESS
-
 #undef RGB_MATRIX_TIMEOUT
 #define RGB_MATRIX_TIMEOUT 600000
 
