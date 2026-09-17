@@ -2,35 +2,25 @@
 
 #include "quantum.h"
 
-// The layer scheme shared by every keyboard: layer names, the custom keys and
-// macros that drive them, and (in layers.c) the handlers that implement them.
-// Each keymap.c supplies only its keymaps[] array and, on RGB boards, which
-// key to light per layer.
+// The layer scheme shared by every keyboard: layer names, the macros used on
+// the control layer, and (in layers.c) the handlers that implement the
+// scheme. Each keymap.c supplies only its keymaps[] array and, on RGB boards,
+// which key to light per layer.
 
 #define KC_SCR_SHOT LCTL(LSFT(KC_PSCR))
 #define KC_WIN_SEL LALT(LCTL(KC_DOWN))
+#define KC_EN_DASH UC(0x2013)
 
 enum layer_names {
   _BASE,
   _SYMBOL,
   _NUMPAD,
-  _FUNCTION,
   _ARROW,
-  _MOUSE,
   _WINDOW,
+  _MOUSE,
   _CONTROL,
   _QWERTY,
   LAYER_COUNT,
-};
-
-enum unicode_names {
-  EN_DASH,
-};
-
-enum custom_keycodes {
-  // Hold for the board's SPECIAL_LAYER (defined in the keymap's config.h);
-  // released without use it acts as a one-shot. Shift + hold gives _CONTROL.
-  SPECIAL = SAFE_RANGE,
 };
 
 #ifdef RGB_MATRIX_ENABLE
