@@ -28,7 +28,9 @@ enum unicode_names {
 };
 
 enum custom_keycodes {
-  SYM_CTRL = SAFE_RANGE,
+  // Hold for the board's SPECIAL_LAYER (defined in the keymap's config.h);
+  // released without use it acts as a one-shot. Shift + hold gives _CONTROL.
+  SPECIAL = SAFE_RANGE,
 };
 
 #ifdef RGB_MATRIX_ENABLE

@@ -26,11 +26,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static int  one_shot_layer      = -1;
-  static bool sym_ctrl_symbol_held = false;
-  static bool sym_ctrl_symbol_used = false;
+  static bool special_held        = false;
+  static bool special_used        = false;
 
   switch (keycode) {
-    case SYM_CTRL:
+    case SPECIAL:
       if (record->event.pressed) {
         if (one_shot_layer != -1) {
           layer_off(one_shot_layer);
@@ -40,34 +40,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           layer_on(_CONTROL);
           unregister_mods(MOD_MASK_SHIFT);
         } else {
-          sym_ctrl_symbol_held = true;
-          sym_ctrl_symbol_used = false;
-          layer_on(_SYMBOL);
+          special_held = true;
+          special_used = false;
+          layer_on(SPECIAL_LAYER);
         }
       } else {
         if (IS_LAYER_ON(_CONTROL)) {
           layer_off(_CONTROL);
-        } else if (sym_ctrl_symbol_held) {
-          sym_ctrl_symbol_held = false;
-          if (sym_ctrl_symbol_used) {
-            layer_off(_SYMBOL);
+        } else if (special_held) {
+          special_held = false;
+          if (special_used) {
+            layer_off(SPECIAL_LAYER);
           } else {
-            one_shot_layer = _SYMBOL;
+            one_shot_layer = SPECIAL_LAYER;
           }
         }
       }
       return false;
   }
 
-  if (sym_ctrl_symbol_held && record->event.pressed) {
-    sym_ctrl_symbol_used = true;
+  if (special_held && record->event.pressed) {
+    special_used = true;
   }
 
   if (IS_QK_ONE_SHOT_LAYER(keycode)) {
     if (record->event.pressed) {
       one_shot_layer = QK_ONE_SHOT_LAYER_GET_LAYER(keycode);
     }
-  } else if (one_shot_layer != -1 && !sym_ctrl_symbol_held) {
+  } else if (one_shot_layer != -1 && !special_held) {
     bool delay_unregister = IS_QK_BASIC(keycode) || IS_QK_MODS(keycode);
     if (record->event.pressed) {
       if (delay_unregister) {
@@ -77,8 +77,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } else {
       int layer_to_close = one_shot_layer;
       one_shot_layer = -1;
-      if (layer_to_close == _SYMBOL) {
-        layer_off(_SYMBOL);
+      if (layer_to_close == SPECIAL_LAYER) {
+        layer_off(SPECIAL_LAYER);
       }
       if (delay_unregister) {
         unregister_code16(keycode);
