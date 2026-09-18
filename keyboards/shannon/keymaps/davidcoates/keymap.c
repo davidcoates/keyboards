@@ -17,16 +17,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Symbol layer
   //
   // Every ASCII punctuation character except , and . which are on the base layer.
-  // Placed by mnemonic against the base-layer letter underneath:
   //
-  //   ?  '  /  *  `      +  \  :  -  "
-  //   _  &  {  }  [      ]  (  )  =  ;
-  //   ~  !  %  $  |      ^  #  <  >  @
+  //   @  !  {  }  #      \  *  ~  `  +
+  //   "  '  (  )  ;      &  -  _  /  :
+  //   =  %  [  ]  $      ^  ?  <  >  |
   //
   [_SYMBOL] = LAYOUT(
-    KC_QUES,        KC_QUOTE,       KC_SLASH,       KC_ASTR,        KC_GRAVE,       KC_PLUS,        KC_BSLS,        KC_COLN,        KC_MINUS,       KC_DQUO,
-    KC_UNDS,        KC_AMPR,        KC_LCBR,        KC_RCBR,        KC_LBRC,        KC_RBRC,        KC_LPRN,        KC_RPRN,        KC_EQUAL,       KC_SCLN,
-    KC_TILD,        KC_EXLM,        KC_PERC,        KC_DLR,         KC_PIPE,        KC_CIRC,        KC_HASH,        KC_LABK,        KC_RABK,        KC_AT,
+    KC_AT,          KC_EXLM,        KC_LCBR,        KC_RCBR,        KC_HASH,        KC_BSLS,        KC_ASTR,        KC_TILD,        KC_GRAVE,       KC_PLUS,
+    KC_DQUO,        KC_QUOTE,       KC_LPRN,        KC_RPRN,        KC_SCLN,        KC_AMPR,        KC_MINUS,       KC_UNDS,        KC_SLASH,       KC_COLN,
+    KC_EQUAL,       KC_PERC,        KC_LBRC,        KC_RBRC,        KC_DLR,         KC_CIRC,        KC_QUES,        KC_LABK,        KC_RABK,        KC_PIPE,
                     KC_TRNS,        KC_NO,          KC_EN_DASH,                                     KC_NO,          KC_TRNS,        KC_NO,
     KC_TRNS,                                                                                                                                        KC_TRNS
   ),
