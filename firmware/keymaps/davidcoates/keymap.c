@@ -1,6 +1,19 @@
 #include QMK_KEYBOARD_H
-#include "layers.h"
 
+#define KC_SCR_SHOT LCTL(LSFT(KC_PSCR))
+#define KC_WIN_SEL LALT(LCTL(KC_DOWN))
+#define KC_EN_DASH UC(0x2013)
+
+enum layer_names {
+  _BASE,
+  _SYMBOL,
+  _NUMPAD,
+  _ARROW,
+  _WINDOW,
+  _MOUSE,
+  _CONTROL,
+  _QWERTY,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -79,3 +92,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 };
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+  clear_oneshot_mods();
+  if (layer_state_cmp(state, _WINDOW)) {
+    register_code(KC_LALT);
+  } else {
+    unregister_code(KC_LALT);
+  }
+  return state;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  // Shift + space enters the control layer (every thumb key is spoken for).
+  if (keycode == KC_SPACE) {
+    if (record->event.pressed) {
+      if ((get_mods() & MOD_MASK_SHIFT) && !layer_state_is(_QWERTY)) {
+        unregister_mods(MOD_MASK_SHIFT);
+        layer_on(_CONTROL);
+        return false;
+      }
+    } else if (IS_LAYER_ON(_CONTROL)) {
+      layer_off(_CONTROL);
+      return false;
+    }
+  }
+
+  // Layer keys are held, not tapped; one-shot only makes a fast tap-then-key
+  // robust. When a key press consumes the one-shot layer, QMK releases that
+  // key immediately (do_release_oneshot in action.c), so it cannot be held.
+  // Register it here instead so it stays down until physically released.
+  if (is_oneshot_layer_active() && (IS_QK_BASIC(keycode) || IS_QK_MODS(keycode))) {
+    if (record->event.pressed) {
+      register_code16(keycode);
+    } else {
+      unregister_code16(keycode);
+    }
+    return false;
+  }
+  return true;
+}

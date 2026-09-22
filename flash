@@ -2,6 +2,6 @@
 
 set -euo pipefail
 
-source util.sh "$@"
+source util.sh
 
 flash

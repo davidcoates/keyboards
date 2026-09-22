@@ -1,8 +1,6 @@
 /bin
-*.uf2
-*.bin
 node_modules/
-hardware/*/output/
-hardware/*/kicad/.history/
+hardware/output/
+hardware/kicad/.history/
 *.kicad_prl
 ~*.lck

@@ -1,21 +1,15 @@
-# keyboards
+# Shannon
 
-Everything related to my keyboards.
+A 38-key, split, ortholinear, columnar keyboard with a dedicated palm key per
+hand. `hardware/` holds the Ergogen config, KiCad project and fab orders;
+`firmware/` holds the QMK keyboard and keymap.
 
-## Keymaps
+## Building
 
-QMK "external userspace" layout: keymap sources live under
-`keyboards/<keyboard>/keymaps/davidcoates`. Requires Docker.
+Requires Docker. One firmware image serves both hands:
 
-```
-./build nyquist   # compile only, output in bin/
-./flash nyquist   # compile (if needed) and flash
-```
+    ./build     # bin/shannon_davidcoates.uf2
+    ./flash     # build and flash
 
-shannon is defined in this repo (rather than in qmk_firmware) -- see
-`keyboards/shannon/readme.md`. One image serves both hands:
-
-```
-./build shannon
-./flash shannon
-```
+The firmware assumes a Pro Micro RP2040 pinout and USB plugged into the left
+hand.

@@ -1,4 +1,0 @@
-#pragma once
-
-#undef RGB_MATRIX_TIMEOUT
-#define RGB_MATRIX_TIMEOUT 600000
