@@ -32,12 +32,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Every ASCII punctuation character except , and . which are on the base layer.
   //
   //   @  !  {  }  #      \  *  ~  `  +
-  //   "  '  (  )  ;      &  -  _  /  :
+  //   "  '  (  )  ;      &  /  -  _  :
   //   =  %  [  ]  $      ^  ?  <  >  |
   //
   [_SYMBOL] = LAYOUT(
     KC_AT,          KC_EXLM,        KC_LCBR,        KC_RCBR,        KC_HASH,        KC_BSLS,        KC_ASTR,        KC_TILD,        KC_GRAVE,       KC_PLUS,
-    KC_DQUO,        KC_QUOTE,       KC_LPRN,        KC_RPRN,        KC_SCLN,        KC_AMPR,        KC_MINUS,       KC_UNDS,        KC_SLASH,       KC_COLN,
+    KC_DQUO,        KC_QUOTE,       KC_LPRN,        KC_RPRN,        KC_SCLN,        KC_AMPR,        KC_SLASH,       KC_MINUS,       KC_UNDS,        KC_COLN,
     KC_EQUAL,       KC_PERC,        KC_LBRC,        KC_RBRC,        KC_DLR,         KC_CIRC,        KC_QUES,        KC_LABK,        KC_RABK,        KC_PIPE,
                     KC_TRNS,        KC_EN_DASH,     KC_NO,                                          KC_NO,          KC_TRNS,        KC_NO,
     KC_TRNS,                                                                                                                                        KC_TRNS
